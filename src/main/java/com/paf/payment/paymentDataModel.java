@@ -12,7 +12,7 @@ public class paymentDataModel {
 		String password = "";
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, username, password);
 			System.out.println(" connected");
 		} catch (Exception e) {

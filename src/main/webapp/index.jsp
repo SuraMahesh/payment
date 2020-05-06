@@ -24,34 +24,34 @@
 					<div class="form-group col-md-6">
 						<div class="form-group ">
 							<label for="IdentyCardNumber">Patient ID</label> <input type="text"
-								class="form-control" id="nic" name="nic"
-								placeholder="980451465V" required>
+								class="form-control" id="patientId" name="patientId"
+								placeholder="P001" required>
 						</div>
 
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="firstname">Card Number</label> <input type="text"
-									class="form-control" id="f_name" name="f_name" placeholder="">
+									class="form-control" id="cardNumber" name="cardNumber" placeholder="">
 							</div>
 							<div class="form-group col-md-6">
 								<label for="lastname">Name of the card</label> <input type="text"
-									class="form-control" id="l_name" name="l_name" placeholder="">
+									class="form-control" id="nameOfTheCard" name="nameOfTheCard" placeholder="">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="patientEmail">Valid date</label> <input type="email"
-								class="form-control" id="pat_mail" name="pat_mail"
+								class="form-control" id=validDate" name="validDate"
 								placeholder="">
 						</div>
 						<div class="form-group">
 							<label for="contactNumber">Cvc code</label> <input
-								type="text" class="form-control" id="mob_num" name="mob_num"
+								type="text" class="form-control" id="cvcCode" name="cvcCode"
 								placeholder="">
 						</div>
 						<div class="form-group">
 							<label for="patbirthday">Amount</label> <input type="date"
-								class="form-control" id="p_bday" name="p_bday" placeholder="">
+								class="form-control" id="amount" name="amount" placeholder="">
 
 						<div class="form-row">
 							<div class="form-group col-md-6">
