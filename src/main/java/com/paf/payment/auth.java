@@ -34,7 +34,7 @@ public class BasicAuth implements ContainerRequestFilter {
 			String username = tokenizer.nextToken();
 			String password = tokenizer.nextToken();
 			
-			if("960321436V".equals(username) && "password".equals(password)) {
+			if("P001".equals(username) && "password".equals(password)) {
 				return;
 			}
 			
