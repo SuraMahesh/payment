@@ -28,7 +28,7 @@ $(document).on("click", "#btnSave", function(event)
 	console.log(type)
 	$.ajax(
 			{
-				url: "PatientAPI",
+				url: "paymentAPI",
 				type: type,
 				data : $("#pat_Form").serialize(),
 				dataType :"text",
@@ -45,16 +45,16 @@ $(document).on("click", "#btnSave", function(event)
 
 $(document).on("click", ".btnUpdate", function (event) {
 	$("#hidPatSave").val($(this).closest("tr").find('#hidItemIDUpdate').val());
-	$("#nic").val($(this).closest("tr").find('td:eq(0)').text()); 
-	$("#f_name").val($(this).closest("tr").find('td:eq(1)').text());
-	$("#l_name").val($(this).closest("tr").find('td:eq(2)').text());
-	$("#pat_mail").val($(this).closest("tr").find('td:eq(3)').text());
-	$("#mob_num").val($(this).closest("tr").find('td:eq(4)').text());
-	$("#p_bday").val($(this).closest("tr").find('td:eq(5)').text());
+	$("#patientId").val($(this).closest("tr").find('td:eq(0)').text()); 
+	$("#cardNumber").val($(this).closest("tr").find('td:eq(1)').text());
+	$("#nameOfTheCard").val($(this).closest("tr").find('td:eq(2)').text());
+	$("#validDate").val($(this).closest("tr").find('td:eq(3)').text());
+	$("#cvcCode").val($(this).closest("tr").find('td:eq(4)').text());
+	$("#amount").val($(this).closest("tr").find('td:eq(5)').text());
 	$("#addr").val($(this).closest("tr").find('td:eq(6)').text());
 	$("#pass").val($(this).closest("tr").find('td:eq(7)').text());
 
-	$("#nic").show();
+	$("#patinetId").show();
 });
 
 
@@ -143,40 +143,35 @@ function onPatientDeleteComplete(response, status)
 
 function validatePatientForm() {
 
-	if($("#nic").val().trim() == "")
+	if($("#patientId").val().trim() == "")
 	{
 		console.log(nic)
-		return "Insert Valid NIC Number";
+		return "Invalid patient ID";
 	}
 
-	if($("#f_name").val().trim() == "")
+	if($("#cardNumber").val().trim() == "")
 	{
-		return "Insert First Name";
+		return "Insert valid Card Number";
 	}
 
-	if($("#l_name").val().trim() == "")
+	if($("#nameOfTheCard").val().trim() == "")
 	{
-		return "Insert Last Name";
+		return "Insert valid Name of the card";
 	}
 
-	if($("#pat_mail").val().trim() == "")
+	if($("#validDate").val().trim() == "")
 	{
-		return "Insert Valid Email Address";
+		return "Insert Valid Date";
 	}
 
-	if($("#mob_num").val().trim() == "")
+	if($("#cvcCode").val().trim() == "")
 	{
-		return "Insert Valid Mobile Number";
+		return "Insert Valid cvc code";
 	}
 
-	if($("#p_bday").val().trim() == "")
+	if($("#amount").val().trim() == "")
 	{
-		return "Insert Birthday";
-	}
-
-	if($("#addr").val().trim() == "")
-	{
-		return "Insert Address";
+		return "Insert amount";
 	}
 
 	if($("#pass").val().trim() == "")

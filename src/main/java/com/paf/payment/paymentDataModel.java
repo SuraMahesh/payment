@@ -7,7 +7,7 @@ public class paymentDataModel {
 	Connection con = null;
 
 	public paymentDataModel() {
-		String url = "jdbc:mysql://localhost:3306/paf-project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String url = "jdbc:mysql://localhost:3306/payment";
 		String username = "root";
 		String password = "";
 
@@ -20,33 +20,33 @@ public class paymentDataModel {
 		}
 	}
 
-	public String createUser(String NIC, String FName, String LName, String Email, String PhoneNum, String BirthDay,
-			String Address, String Password) {
+	public String createPayment(String patientId, int cardNumber, String nameOfTheCard, String validDate, int cvcCode, float amount,
+			 String password) {
 
 		String output = "";
 
-		System.out.println("nic print  "+NIC);
+		System.out.println("patientId print  "+patientId);
 		try {
 			
-			String sql = "INSERT INTO patient (`pat_id`,`pat_nic`,`FirstName`,`LastName`,`Email`,`PhoneNumber`,`Birthday`,`Address`,`Password`)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO payment (`patientId`,`cardNumber`,`nameOfTheCard`,`validDate`,`cvcCode`,`amount`,`password`)"
+					+ " VALUES (?,?,?,?,?,?,?)";
 
 			PreparedStatement st = con.prepareStatement(sql);
 
 			st.setInt(1, 000);
-			st.setString(2, NIC);
-			st.setString(3, FName);
-			st.setString(4, LName);
-			st.setString(5, Email);
-			st.setInt(6, Integer.parseInt(PhoneNum));
-			st.setString(7, BirthDay);
-			st.setString(8, Address);
-			st.setString(9, Password);
+			st.setString(2, patientId);
+			st.setInt(3, cardNumber);
+			st.setString(4, nameOfTheCard);
+			st.setString(5, validDate);
+			st.setInt(6, cvcCode);
+			st.setFloat(7, amount);
+			st.setString(8, password);
+			
 
 			st.execute();
 
-			String newPatient = getCustomers();
-			output = "{\"status\":\"success\",\"data\": \"" + newPatient + "\"}";
+			String newPayment = getCustomers();
+			output = "{\"status\":\"success\",\"data\": \"" + newPayment + "\"}";
 			System.out.println("Insert Model success Output  ::" + output);
 
 		} catch (Exception e) {
@@ -63,13 +63,13 @@ public class paymentDataModel {
 
 		String output = "";
 
-		String sql = "SELECT * FROM patient";
+		String sql = "SELECT * FROM payment";
 
 		try {
 
-			output = "<table class=\"table table-striped table-dark\"> <thead> <tr> <th scope=\"col\"> Patient NIC</th><th scope=\"col\">First Name</th>"
-					+ "<th scope=\"col\">Last Name</th><th scope=\"col\">Email</th> <th scope=\"col\">Phone Number</th> <th scope=\"col\">Birthday</th> "
-					+ "<th scope=\"col\">Address</th> <th scope=\"col\">Password</th></tr> </thead>";
+			output = "<table class=\"table table-striped table-dark\"> <thead> <tr> <th scope=\"col\"> Patient Id</th><th scope=\"col\">Card Number</th>"
+					+ "<th scope=\"col\">Name of the card</th><th scope=\"col\">Valid Date</th> <th scope=\"col\">Cvc Code</th> <th scope=\"col\">Amount</th> "
+					+ "<th scope=\"col\">Password</th></tr> </thead>";
 
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -78,30 +78,26 @@ public class paymentDataModel {
 
 			while (rs.next()) {
 
-				String patID = Integer.toString(rs.getInt("pat_id"));
-				String patNIC = rs.getString("pat_nic");
-				String patFName = rs.getString("FirstName");
-				String patLName = rs.getString("LastName");
-				String patEmail = rs.getString("Email");
-				String patPNum = Integer.toString(rs.getInt("PhoneNumber"));
-				String patBday = rs.getString("Birthday");
-				String patAddr = rs.getString("Address");
+				String NIC = Integer.toString(rs.getInt("NIC"));
+				String patientId = rs.getString("patientId");
+				int cardNumber = rs.getInt("cardNuber");
+				String nameOfTheCard = rs.getString("nameOfTheCard");
+				String validDate = rs.getString("validDate");
+				int cvcCode = rs.getInt("cvcCode");
+				float amount = rs.getFloat("amount");
 				String patPass = rs.getString("Password");
 
-				//System.out.println(patID + "  " + patNIC + "  " + patFName + "  " + patLName + "  " + patEmail + "  "
-					//	+ patPNum + "  " + patBday + "  " + patAddr + "  " + patPass);
-
+				
 				output += "<tr>";
-				output += "<td><input id='hidItemIDUpdate' name='hidItemIDUpdate' type='hidden' value='"+patID+"'>" +patNIC +  "</td>";
-				output += "<td>" + patFName + "</td>";
-				output += "<td>" + patLName + "</td>";
-				output += "<td>" + patEmail + "</td>";
-				output += "<td>" + patPNum + "</td>";
-				output += "<td>" + patBday + "</td>";
-				output += "<td>" + patAddr + "</td>";
+				output += "<td><input id='hidItemIDUpdate' name='hidItemIDUpdate' type='hidden' value='"+NIC+"'>" +patientId +  "</td>";
+				output += "<td>" + cardNumber + "</td>";
+				output += "<td>" + nameOfTheCard + "</td>";
+				output += "<td>" + validDate + "</td>";
+				output += "<td>" + cvcCode + "</td>";
+				output += "<td>" + amount + "</td>";
 				output += "<td>" + patPass + "</td>";
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td>";
-				output += "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-patid='"+ patID + "'></td>";
+				output += "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-patid='"+ NIC + "'></td>";
 				output += "</tr>";
 			}
 			output += "</table>";
@@ -116,30 +112,29 @@ public class paymentDataModel {
 	}
 
 
-	public String updateUser(String hidPatSave, String NIC, String FName, String LName, String Email, String PhoneNum, String BirthDay,
-			String Address, String Password) {
+	public String updatePayment(String hidPatSave, String patientId, int cardNumber, String nameOfTheCard, String validDate, int cvcCode, float amount,
+			String Password) {
 		
 		String output = "";
 		
-		String sql = "UPDATE patient set pat_nic=? , FirstName=?, LastName=?, Email=?, PhoneNumber=?, Birthday=?,Address=?, Password=? WHERE pat_id=?";
+		String sql = "UPDATE payment set patientId=? , cardNumber=?, nameOfTheCard=?, validDate=?, cvcCode=?, amount=?, Password=? WHERE patientId=?";
 		try {
 
 			PreparedStatement st = con.prepareStatement(sql);
 
-			st.setString(1, NIC);
-			st.setString(2, FName);
-			st.setString(3, LName);
-			st.setString(4, Email);
-			st.setInt(5, Integer.parseInt(PhoneNum));
-			st.setString(6, BirthDay);
-			st.setString(7, Address);
-			st.setString(8, Password);
+			st.setString(1, patientId);
+			st.setInt(2, cardNumber);
+			st.setString(3, nameOfTheCard);
+			st.setString(4, validDate);
+			st.setInt(5, cvcCode);
+			st.setFloat(6, amount);
+			st.setString(7, Password);
 			st.setInt(9, Integer.parseInt(hidPatSave));
 		
 			st.executeUpdate();
 			
-			String newPatient = getCustomers();
-			output = "{\"status\":\"success\",\"data\": \"" + newPatient + "\"}";
+			String newPayment = getCustomers();
+			output = "{\"status\":\"success\",\"data\": \"" + newPayment + "\"}";
 			System.out.println("Insert Model success Output  ::" + output);
 
 		} catch (Exception e) {
@@ -153,20 +148,20 @@ public class paymentDataModel {
 
 	}
 
-	public String delete(String ID) {
+	public String delete(String NIC) {
 		
 		String output = "";
 		
-		String sql = "DELETE FROM patient WHERE pat_id=?";
+		String sql = "DELETE FROM payment WHERE patientId=?";
 		try {
 
 			PreparedStatement st = con.prepareStatement(sql);
 
-			st.setInt(1, Integer.parseInt(ID));
+			st.setInt(1, Integer.parseInt(NIC));
 			st.execute();
 			
-			String newPatient = getCustomers();
-			output = "{\"status\":\"success\",\"data\": \"" + newPatient + "\"}";
+			String newPayment = getCustomers();
+			output = "{\"status\":\"success\",\"data\": \"" + newPayment + "\"}";
 
 		} catch (Exception e) {
 			

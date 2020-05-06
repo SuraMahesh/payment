@@ -37,9 +37,9 @@ public class paymentAPI extends HttpServlet {
 		
 		System.out.println("API CALL  :  " +NIC);
 		
-		CustomerDataModel item = new CustomerDataModel();
+		paymentDataModel item = new paymentDataModel();
 		
-		String output = item.createUser(NIC, FNAME, LNAME, PATMAIL, MOBNUM, PBDAY, ADDR, PASS);
+		String output = item.createPayment(NIC, FNAME, LNAME, PATMAIL, MOBNUM, PBDAY, ADDR, PASS);
 		
 		
 		response.getWriter().write(output);
@@ -48,7 +48,7 @@ public class paymentAPI extends HttpServlet {
 	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		CustomerDataModel item = new CustomerDataModel();
+		paymentDataModel item = new paymentDataModel();
 		Map paras = getParasMap(request);
 		System.out.println(paras + "  :: paras PUT");
 		String output = item.updateUser(paras.get("hidPatSave").toString(), paras.get("nic").toString(),
@@ -63,7 +63,7 @@ public class paymentAPI extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		Map paras = getParasMap(request);
-		CustomerDataModel item = new CustomerDataModel();
+		paymentDataModel item = new paymentDataModel();
 		
 		String output = item.delete(paras.get("patID").toString());
 		
