@@ -7,7 +7,7 @@ public class paymentDataModel {
 	Connection con = null;
 
 	public paymentDataModel() {
-		String url = "jdbc:mysql://localhost:3306/payment";
+		String url = "jdbc:mysql://localhost:3306/payment2";
 		String username = "root";
 		String password = "";
 
@@ -20,27 +20,27 @@ public class paymentDataModel {
 		}
 	}
 
-	public String createPayment(String patientId, int cardNumber, String nameOfTheCard, String validDate, int cvcCode, float amount,
-			 String password) {
+	public String createPayment(String patientId, String cardNumber, String nameOfTheCard, String validDate, String cvcCode, String amount,
+			 String Password) {
 
 		String output = "";
 
 		System.out.println("patientId print  "+patientId);
 		try {
 			
-			String sql = "INSERT INTO payment (`patientId`,`cardNumber`,`nameOfTheCard`,`validDate`,`cvcCode`,`amount`,`password`)"
-					+ " VALUES (?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO payment (`NIC`,`patientId`,`cardNumber`,`nameOfTheCard`,`validDate`,`cvcCode`,`amount`,`Password`)"
+					+ " VALUES (?,?,?,?,?,?,?,?)";
 
 			PreparedStatement st = con.prepareStatement(sql);
 
 			st.setInt(1, 000);
 			st.setString(2, patientId);
-			st.setInt(3, cardNumber);
+			st.setInt(3, Integer.parseInt(cardNumber));
 			st.setString(4, nameOfTheCard);
 			st.setString(5, validDate);
-			st.setInt(6, cvcCode);
-			st.setFloat(7, amount);
-			st.setString(8, password);
+			st.setInt(6, Integer.parseInt(cvcCode));
+			st.setFloat(7, Float.parseFloat(amount));
+			st.setString(8, Password);
 			
 
 			st.execute();
@@ -80,12 +80,12 @@ public class paymentDataModel {
 
 				String NIC = Integer.toString(rs.getInt("NIC"));
 				String patientId = rs.getString("patientId");
-				int cardNumber = rs.getInt("cardNuber");
+				String cardNumber = Integer.toString(rs.getInt("cardNumber"));
 				String nameOfTheCard = rs.getString("nameOfTheCard");
 				String validDate = rs.getString("validDate");
-				int cvcCode = rs.getInt("cvcCode");
-				float amount = rs.getFloat("amount");
-				String patPass = rs.getString("Password");
+				String cvcCode = Integer.toString(rs.getInt("cvcCode"));
+				String amount = Float.toString(rs.getFloat("amount"));
+				String Password = rs.getString("Password");
 
 				
 				output += "<tr>";
@@ -95,7 +95,7 @@ public class paymentDataModel {
 				output += "<td>" + validDate + "</td>";
 				output += "<td>" + cvcCode + "</td>";
 				output += "<td>" + amount + "</td>";
-				output += "<td>" + patPass + "</td>";
+				output += "<td>" + Password + "</td>";
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td>";
 				output += "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-patid='"+ NIC + "'></td>";
 				output += "</tr>";
@@ -112,22 +112,22 @@ public class paymentDataModel {
 	}
 
 
-	public String updatePayment(String hidPatSave, String patientId, int cardNumber, String nameOfTheCard, String validDate, int cvcCode, float amount,
+	public String updatePayment(String hidPatSave, String patientId, String cardNumber, String nameOfTheCard, String validDate, String cvcCode, String amount,
 			String Password) {
 		
 		String output = "";
 		
-		String sql = "UPDATE payment set patientId=? , cardNumber=?, nameOfTheCard=?, validDate=?, cvcCode=?, amount=?, Password=? WHERE patientId=?";
+		String sql = "UPDATE payment set patientId=? , cardNumber=?, nameOfTheCard=?, validDate=?, cvcCode=?, amount=?, Password=? WHERE NIC=?";
 		try {
 
 			PreparedStatement st = con.prepareStatement(sql);
 
 			st.setString(1, patientId);
-			st.setInt(2, cardNumber);
+			st.setInt(2, Integer.parseInt(cardNumber));
 			st.setString(3, nameOfTheCard);
 			st.setString(4, validDate);
-			st.setInt(5, cvcCode);
-			st.setFloat(6, amount);
+			st.setInt(5, Integer.parseInt(cvcCode));
+			st.setFloat(6, Float.parseFloat(amount));
 			st.setString(7, Password);
 			st.setInt(9, Integer.parseInt(hidPatSave));
 		
@@ -152,7 +152,7 @@ public class paymentDataModel {
 		
 		String output = "";
 		
-		String sql = "DELETE FROM payment WHERE patientId=?";
+		String sql = "DELETE FROM payment WHERE NIC=?";
 		try {
 
 			PreparedStatement st = con.prepareStatement(sql);

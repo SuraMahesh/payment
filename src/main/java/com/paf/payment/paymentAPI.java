@@ -17,7 +17,7 @@ public class paymentAPI extends HttpServlet {
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 	
@@ -27,11 +27,11 @@ public class paymentAPI extends HttpServlet {
 		
 		
 		String patientId      =   request.getParameter("patientId");        
-		int cardNumber	=	request.getParameter("cardNumber");
+		String cardNumber	=	request.getParameter("cardNumber");
 		String nameOfTheCard	=	request.getParameter("nameOfTheCard");
 		String validDate 	=	request.getParameter("validDate");
-		int cvcCode 	= 	request.getParameter("cvcCode");
-		float amount	=	request.getParameter("amount");
+		String cvcCode 	= 	request.getParameter("cvcCode");
+		String amount	=	request.getParameter("amount");
 		String PASS		=	request.getParameter("pass");
 		
 		System.out.println("API CALL  :  " +patientId);
@@ -51,9 +51,9 @@ public class paymentAPI extends HttpServlet {
 		Map paras = getParasMap(request);
 		System.out.println(paras + "  :: paras PUT");
 		String output = item.updatePayment(paras.get("hidPatSave").toString(), paras.get("patientId").toString(),
-				paras.get("f_name").toString(), paras.get("l_name").toString(), paras.get("pat_mail").toString(),
-				paras.get("mob_num").toString(), paras.get("p_bday").toString(), paras.get("addr").toString(), 
-				paras.get("pass").toString());
+				paras.get("cardNumber").toString(), paras.get("nameOfTheCard").toString(), paras.get("validDate").toString(),
+			    paras.get("cvcCode").toString(), paras.get("amount").toString(), paras.get("password").toString()
+				);
 		
 		response.getWriter().write(output);
 	}
@@ -64,9 +64,9 @@ public class paymentAPI extends HttpServlet {
 		Map paras = getParasMap(request);
 		paymentDataModel item = new paymentDataModel();
 		
-		String output = item.delete(paras.get("patID").toString());
+		String output = item.delete(paras.get("NIC").toString());
 		
-		System.out.println(output + "Delete ID");
+		System.out.println(output + "Delete NIC");
 		
 		response.getWriter().write(output);
 		

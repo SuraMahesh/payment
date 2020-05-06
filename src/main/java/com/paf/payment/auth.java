@@ -1,4 +1,4 @@
-package com.pafProject.HealthManagement.Patient;
+package com.paf.payment;
 
 import java.io.IOException;
 import java.util.List;
