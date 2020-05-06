@@ -26,20 +26,19 @@ public class paymentAPI extends HttpServlet {
 		
 		
 		
-		String NIC      =   request.getParameter("nic");        
-		String FNAME	=	request.getParameter("f_name");
-		String LNAME	=	request.getParameter("l_name");
-		String PATMAIL 	=	request.getParameter("pat_mail");
-		String MOBNUM 	= 	request.getParameter("mob_num");
-		String PBDAY	=	request.getParameter("p_bday");
-		String ADDR 	= 	request.getParameter("addr");
+		String patientId      =   request.getParameter("patientId");        
+		int cardNumber	=	request.getParameter("cardNumber");
+		String nameOfTheCard	=	request.getParameter("nameOfTheCard");
+		String validDate 	=	request.getParameter("validDate");
+		int cvcCode 	= 	request.getParameter("cvcCode");
+		float amount	=	request.getParameter("amount");
 		String PASS		=	request.getParameter("pass");
 		
-		System.out.println("API CALL  :  " +NIC);
+		System.out.println("API CALL  :  " +patientId);
 		
 		paymentDataModel item = new paymentDataModel();
 		
-		String output = item.createPayment(NIC, FNAME, LNAME, PATMAIL, MOBNUM, PBDAY, ADDR, PASS);
+		String output = item.createPayment(patientId, cardNumber, nameOfTheCard, validDate, cvcCode, amount, PASS);
 		
 		
 		response.getWriter().write(output);
@@ -51,7 +50,7 @@ public class paymentAPI extends HttpServlet {
 		paymentDataModel item = new paymentDataModel();
 		Map paras = getParasMap(request);
 		System.out.println(paras + "  :: paras PUT");
-		String output = item.updateUser(paras.get("hidPatSave").toString(), paras.get("nic").toString(),
+		String output = item.updatePayment(paras.get("hidPatSave").toString(), paras.get("patientId").toString(),
 				paras.get("f_name").toString(), paras.get("l_name").toString(), paras.get("pat_mail").toString(),
 				paras.get("mob_num").toString(), paras.get("p_bday").toString(), paras.get("addr").toString(), 
 				paras.get("pass").toString());
